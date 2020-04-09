@@ -1,16 +1,19 @@
 package game.Level;
 
-import core.GameEngine;
-import core.objects.GameObject;
-import core.objects.Transform;
-import core.render.Sprite;
-import core.scene.Scene;
+import skengine2.core.GameEngine;
+import skengine2.core.Input;
+import skengine2.objects.GameObject;
+import skengine2.objects.Transform;
+import skengine2.render.Sprite;
+import skengine2.scene.Scene;
 import org.joml.Vector2f;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class PlayerGameObject extends GameObject {
     public float speed = 3.5f;
+    public Vector2f camScale;
+    private float camZoom;
     public PlayerGameObject(Scene scene, Transform transform) {
         super(scene, transform);
 
@@ -18,8 +21,10 @@ public class PlayerGameObject extends GameObject {
 
     @Override
     public void setup(GameEngine engine) {
+        camScale = new Vector2f(1,1);
         skin =  new Sprite(transform,"./res/npc.png", this);
         engine.getMainCamera().setTarget(this);
+
     }
 
     @Override
@@ -51,6 +56,16 @@ public class PlayerGameObject extends GameObject {
         }
         if(engine.getInput().isKeyPressed(GLFW_KEY_RIGHT)){
             transform.angle -= 10f;
+        }
+        if(engine.getInput().getScroll() == Input.SCROLL_DOWN){
+            //engine.getMainCamera().setScale(camScale.add(-0.1f, -0.1f));
+            camZoom = -0.05f;
+            engine.getMainCamera().addZoom(camZoom);
+        }
+        if(engine.getInput().getScroll() == Input.SCROLL_UP){
+            //engine.getMainCamera().setScale(camScale.add(0.1f, 0.1f));
+            camZoom = 0.05f;
+            engine.getMainCamera().addZoom(camZoom);
         }
 
     }

@@ -1,8 +1,8 @@
 package game;
 
-import core.GameEngine;
-import core.scene.Scene;
-import core.scene.ScenesManager;
+import skengine2.core.GameEngine;
+import skengine2.scene.Scene;
+import skengine2.scene.ScenesManager;
 import game.Level.GameScene;
 
 public class SceneController extends ScenesManager {

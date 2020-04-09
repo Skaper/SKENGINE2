@@ -1,6 +1,6 @@
 package game;
 
-import core.GameEngine;
+import skengine2.core.GameEngine;
 
 public class GameManager {
     public static void main(String args[]) {
