@@ -47,7 +47,7 @@ public class GameEngine implements Runnable{
 
         mainCamera = new Camera(width, height);
 
-        input = new Input(windowID);
+        input = new Input(windowID, mainCamera);
         //setup scene manager
 
         //setup current scene
@@ -138,7 +138,7 @@ public class GameEngine implements Runnable{
                 //SCENE and OBJECTS RENDER
                 currentScene.render(this, renderer);
                 currentScene.renderObjects(this, renderer);
-
+                renderer.resetCount();
                 //SHOW FPS;
                 //System.out.println("FPS: "+fps);
                 window.setTitle(title + " | FPS: " + fps);
@@ -175,5 +175,9 @@ public class GameEngine implements Runnable{
 
     public int getHeight() {
         return height;
+    }
+
+    public long getWindowID() {
+        return windowID;
     }
 }

@@ -2,6 +2,8 @@ package skengine2.render;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
+import static org.lwjgl.opengl.GL20.*;
+
 import org.lwjgl.BufferUtils;
 
 import javax.imageio.ImageIO;
@@ -24,9 +26,7 @@ public class Texture {
     public static final int REPEAT = GL_REPEAT;
 
     public Texture(String filename){
-        //double start = Timer.getNano();
-        InputStream in = null;
-        BufferedImage bi;
+        BufferedImage bi = null;
         try{
             bi = ImageIO.read(new File(filename));
             width = bi.getWidth();
@@ -44,26 +44,12 @@ public class Texture {
                 }
             }
 
-           pixels.flip();
-             /*URL url = new File(filename).toURI().toURL();
-
-            in = url.openStream();//new InputStream(filename);
-            PNGDecoder dec = new PNGDecoder(in);
-
-            width = dec.getWidth();
-            height = dec.getHeight();
-            final int bpp = 4;
-            ByteBuffer pixels = BufferUtils.createByteBuffer(bpp * width * height);
-            dec.decode(pixels, width * bpp, PNGDecoder.Format.RGBA);
-            pixels.flip();*/
-
+            pixels.flip();
 
             id = glGenTextures();
 
             bind();
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-            //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -73,22 +59,7 @@ public class Texture {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
         }catch (IOException e){
             e.printStackTrace();
-        }finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-        //System.out.println("Time "+(Timer.getNano()-start));
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        glDeleteTextures(id);
-        super.finalize();
     }
 
     public void bind(){
@@ -107,10 +78,6 @@ public class Texture {
          };
     }
 
-    private float normalize(float value, float min, float max) {
-        return 1 - ((value - min) / (max - min));
-    }
-
     public int getHeight() {
         return height;
     }
@@ -118,4 +85,10 @@ public class Texture {
     public int getWidth() {
         return width;
     }
+
+    public void delete() {
+        glDeleteShader(id);
+        glDeleteTextures(id);
+    }
+
 }

@@ -2,7 +2,7 @@ package game.Level;
 
 import skengine2.core.GameEngine;
 import skengine2.core.Input;
-import skengine2.objects.GameObject;
+import skengine2.objects.GameEntity;
 import skengine2.objects.Transform;
 import skengine2.render.Sprite;
 import skengine2.scene.Scene;
@@ -10,11 +10,11 @@ import org.joml.Vector2f;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class PlayerGameObject extends GameObject {
+public class PlayerGameEntity extends GameEntity {
     public float speed = 3.5f;
     public Vector2f camScale;
     private float camZoom;
-    public PlayerGameObject(Scene scene, Transform transform) {
+    public PlayerGameEntity(Scene scene, Transform transform) {
         super(scene, transform);
 
     }

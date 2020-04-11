@@ -1,14 +1,14 @@
 package skengine2.component;
 
 import skengine2.core.GameEngine;
-import skengine2.objects.Object;
+import skengine2.objects.Entity;
 
 public abstract class Component {
     public boolean isTrigger = false;
     protected boolean isActive = true;
     protected boolean isRender = true;
     protected String tag;
-    protected Object parent;
+    protected Entity parent;
     protected Type type = Type.None;
 
     public  enum Type{
@@ -27,10 +27,10 @@ public abstract class Component {
     public void setTag(String tag) {
         this.tag = tag;
     }
-    public Object getParent() {
+    public Entity getParent() {
         return parent;
     }
-    public void setParent(Object parent) {
+    public void setParent(Entity parent) {
         this.parent = parent;
     }
     public boolean isActive(){

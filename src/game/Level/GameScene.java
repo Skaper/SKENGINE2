@@ -1,7 +1,7 @@
 package game.Level;
 
 import skengine2.core.GameEngine;
-import skengine2.objects.GameObject;
+import skengine2.objects.GameEntity;
 import skengine2.objects.Transform;
 import skengine2.render.Renderer;
 import skengine2.scene.Scene;
@@ -11,16 +11,19 @@ public class GameScene extends Scene {
     @Override
     public void setup(GameEngine engine) {
         System.out.println("GameScene setup");
+        int total = 0;
         for(int y = -1000; y < 1000; y+=80){
             for(int x = -1000; x < 1000; x+=80){
-                addObject(new TileGameObject(this, new Transform(new Vector2f(x, y))),
+                addObject(new TileGameEntity(this, new Transform(new Vector2f(x, y))),
                                             engine);
+                total++;
+                System.out.println("Total: "+total);
             }
         }
-        GameObject go = new PlayerGameObject(this, new Transform());
+        GameEntity go = new PlayerGameEntity(this, new Transform());
         addObject(go, engine);
 
-        GameObject test = new TestLineGameObject(this, new Transform());
+        GameEntity test = new TestLineGameEntity(this, new Transform());
         addObject(test, engine);
 
     }

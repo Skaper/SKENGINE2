@@ -1,16 +1,16 @@
 package game.Level;
 
 import skengine2.core.GameEngine;
-import skengine2.objects.GameObject;
+import skengine2.objects.GameEntity;
 import skengine2.objects.Transform;
 import skengine2.render.Renderer;
 import skengine2.render.Sprite;
 import skengine2.scene.Scene;
 
-public class TileGameObject extends GameObject {
+public class TileGameEntity extends GameEntity {
     Sprite point;
 
-    public TileGameObject(Scene scene, Transform transform) {
+    public TileGameEntity(Scene scene, Transform transform) {
         super(scene, transform);
 
     }

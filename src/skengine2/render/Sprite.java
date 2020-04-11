@@ -1,6 +1,6 @@
 package skengine2.render;
 import skengine2.Camera;
-import skengine2.objects.Object;
+import skengine2.objects.Entity;
 import skengine2.objects.Transform;
 import org.joml.Matrix4f;
 
@@ -10,25 +10,25 @@ public class Sprite {
     public Transform transform;
 
     private String fileName;
-    private Object parent;
+    private Entity parent;
     private Texture texture;
     private Model model;
     private String shaderName = DEFAULT_SHADER;
     private Shader shader;
     private Matrix4f scaleMatrix;
 
-    public Sprite(String fileName, Object parent){
+    public Sprite(String fileName, Entity parent){
         this.transform = new Transform();
         this.fileName = fileName;
         this.parent = parent;
         init();
     }
-    public Sprite(Transform transform, Object parent){
+    public Sprite(Transform transform, Entity parent){
         this.transform = transform;
         this.parent = parent;
         init();
     }
-    public Sprite(Transform transform, String fileName, Object parent){
+    public Sprite(Transform transform, String fileName, Entity parent){
         this.transform = transform;
         this.fileName = fileName;
         this.parent = parent;

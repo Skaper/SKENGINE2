@@ -1,7 +1,7 @@
 package skengine2.scene;
 
 import skengine2.core.GameEngine;
-import skengine2.objects.GameObject;
+import skengine2.objects.GameEntity;
 import skengine2.objects.IObjWorkable;
 import skengine2.objects.SortObjLayout;
 import skengine2.render.Renderer;
@@ -11,7 +11,7 @@ import java.util.Collections;
 
 public abstract class Scene implements IObjWorkable {
     private long lastObjectID;
-    protected ArrayList<GameObject> objects;
+    protected ArrayList<GameEntity> objects;
 
     public Scene(){
         lastObjectID = 0;
@@ -19,7 +19,7 @@ public abstract class Scene implements IObjWorkable {
 
 
     }
-    public void addObject(GameObject obj, GameEngine engine) {
+    public void addObject(GameEntity obj, GameEngine engine) {
         objects.add(obj);
         obj.setID(lastObjectID);
         obj.setVisible(true);
@@ -30,7 +30,7 @@ public abstract class Scene implements IObjWorkable {
         Collections.sort(objects, new SortObjLayout());
     }
 
-    public void removeObject(GameObject obj){
+    public void removeObject(GameEntity obj){
         for(int i = 0; i < objects.size(); i++){
             if(objects.get(i).getID() == obj.getID()){
                 obj.setVisible(false);
@@ -39,9 +39,9 @@ public abstract class Scene implements IObjWorkable {
         }
     }
 
-    public GameObject getGameObject(String tag){
+    public GameEntity getGameObject(String tag){
         for(int i=0; i < objects.size(); i++){
-            GameObject gameObject = objects.get(i);
+            GameEntity gameObject = objects.get(i);
             if(gameObject.getTag().equalsIgnoreCase(tag)) return gameObject;
         }
         return null;
@@ -52,7 +52,7 @@ public abstract class Scene implements IObjWorkable {
     public void setupObjects(GameEngine gc) {
 
         for(int i = 0; i < objects.size(); i++) {
-            GameObject object = objects.get(i);
+            GameEntity object = objects.get(i);
             object.setupContent(gc);
             object.setup(gc);
             object.setupComponents(gc);
@@ -67,7 +67,7 @@ public abstract class Scene implements IObjWorkable {
     public void updateObjects(GameEngine engine) {
 
         for(int i = 0; i < objects.size(); i++) {
-            GameObject object = objects.get(i);
+            GameEntity object = objects.get(i);
             object.update(engine);
             object.updateContent(engine);
             object.updateComponents(engine);
@@ -81,7 +81,7 @@ public abstract class Scene implements IObjWorkable {
     }
 
     public void renderObjects(GameEngine engine, Renderer graphic) {
-        for(GameObject obj : objects) {
+        for(GameEntity obj : objects) {
             obj.renderContent(engine, graphic);
             obj.render(engine, graphic);
 

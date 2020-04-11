@@ -1,6 +1,7 @@
 package skengine2.render;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static skengine2.settings.GraphicSettings.VSYNC;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -14,12 +15,6 @@ public class Window {
     private int width, height;
 
     public static void setCallBacks(){
-        /*glfwSetErrorCallback(new GLFWErrorCallback() {
-            @Override
-            public void invoke(int error, long description) {
-                throw new IllegalAccessError("GLFW error [" + Integer.toHexString(error) + "]: " + GLFWErrorCallback.getDescription(description));
-            }
-        });*/
         glfwSetErrorCallback(GLFWErrorCallback.createPrint(System.err));
     }
 
@@ -49,12 +44,11 @@ public class Window {
         }
         glfwMakeContextCurrent(windowID);
         GL.createCapabilities();
-        //glEnable(GL_TEXTURE_2D);
-
-        /*glViewport(0, 0, width, height); //NEW
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(0, width, 0, height, -1, 1);*/
+        if (fullScreen && VSYNC) {
+            glfwSwapInterval(1);
+        }else{
+            glfwSwapInterval(0);
+        }
     }
 
     public void update(){
@@ -84,6 +78,7 @@ public class Window {
         this.width = width;
         this.height = height;
     }
+
 
     public int getWidth() {
         return width;

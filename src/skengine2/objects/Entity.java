@@ -9,7 +9,7 @@ import skengine2.scene.Scene;
 import java.util.ArrayList;
 
 
-public abstract class Object implements  IObjWorkable, IObjComponentWorkable, Layout{
+public abstract class Entity implements  IObjWorkable, IObjComponentWorkable, Layout{
     public Transform transform;
     protected int layout = Layout.DEFAULT;
 
@@ -22,7 +22,7 @@ public abstract class Object implements  IObjWorkable, IObjComponentWorkable, La
     protected ArrayList<Component> components;
     protected boolean isVisible;
 
-    public Object(Scene scene, Transform transform){
+    public Entity(Scene scene, Transform transform){
         this.scene = scene;
         this.transform = transform;
 

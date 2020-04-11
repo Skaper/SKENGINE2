@@ -9,6 +9,8 @@ public class Renderer {
     private GameEngine engine;
     private Camera camera;
 
+    private int test_countObjects = 0;
+
     private Font awtFont;
     public Renderer(GameEngine engine){
         this.engine = engine;
@@ -16,18 +18,25 @@ public class Renderer {
     }
 
     public void render(Sprite sprite){
-        int maxSize = (sprite.getWidth() > sprite.getHeight()) ? sprite.getWidth() : sprite.getHeight();
-        int totalHalfSize = maxSize + engine.getWidth()/2;
-        if ((Math.abs(-sprite.transform.position.x  + sprite.getWidth()/2 - camera.getPosition().x) > totalHalfSize) ||
-                (Math.abs(sprite.transform.position.x  + sprite.getWidth()/2 + camera.getPosition().x) > totalHalfSize))
-        {
-            return;
-        }
-        if ((Math.abs(-sprite.transform.position.y  + sprite.getHeight()/2 - camera.getPosition().y) > totalHalfSize) ||
-                (Math.abs(sprite.transform.position.y  + sprite.getHeight()/2 + camera.getPosition().y) >totalHalfSize))
-        {
-            return;
-        }
+
+        float camX = camera.getPosition().x;
+        float camY = camera.getPosition().y;
+        float camHalfW = camera.getWidth() / 2f;
+        float camHalfH = camera.getHeight() / 2f;
+        float spriteX = sprite.transform.position.x;
+        float spriteY = sprite.transform.position.y;
+        int maxHalfSize = (sprite.getWidth() > sprite.getHeight()) ? sprite.getWidth()/2 : sprite.getHeight()/2;
+
+        if(spriteX - maxHalfSize > camX + camHalfW || spriteX + maxHalfSize < camX - camHalfW) return;
+        if(spriteY - maxHalfSize > camY + camHalfH || spriteY + maxHalfSize < camY - camHalfH) return;
+
         sprite.render(camera);
+        test_countObjects++;
+    }
+
+    public void resetCount() {
+        //System.out.println(" 627 / "+test_countObjects);
+        test_countObjects = 0;
+
     }
 }

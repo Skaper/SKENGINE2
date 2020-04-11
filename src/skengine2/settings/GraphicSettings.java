@@ -5,6 +5,7 @@ public class GraphicSettings {
     public static int SCREEN_WIDTH = 1024;
     public static int SCREEN_HEIGHT = 720;
     public static boolean FULL_SCREEN = false;
+    public static boolean VSYNC = true;
     public static String DEFAULT_SHADER = "shader";
     public static double FPS_LIMIT = 120.0;
     public static int BUFFER_STRATEGY = 1;
