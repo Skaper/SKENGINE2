@@ -12,8 +12,8 @@ public class GameScene extends Scene {
     public void setup(GameEngine engine) {
         System.out.println("GameScene setup");
         int total = 0;
-        for(int y = -1000; y < 1000; y+=80){
-            for(int x = -1000; x < 1000; x+=80){
+        for(int y = -1000; y < 1000; y+=200){
+            for(int x = -1000; x < 1000; x+=200){
                 addObject(new TileGameEntity(this, new Transform(new Vector2f(x, y))),
                                             engine);
                 total++;

@@ -5,6 +5,7 @@ import skengine2.render.Renderer;
 import skengine2.render.Window;
 import skengine2.scene.Scene;
 import skengine2.scene.ScenesManager;
+import skengine2.utils.Debug;
 import skengine2.utils.Timer;
 
 import static skengine2.settings.GraphicSettings.*;
@@ -106,48 +107,24 @@ public class GameEngine implements Runnable{
             while (unprocessedTime >= UPDATE_CAP){
                 unprocessedTime -= UPDATE_CAP;
 
-
-
-                //PHYSICS UPDATE
-
-                //UPDATE SCENE and OBJECTS
-                currentScene.update(this);
-                currentScene.updateObjects(this);
-
-                //CAMERA UPDATE
-                mainCamera.update();
+                update();
 
                 if(frameTime >= 1.0){
                     frameTime = 0;
                     fps = frames;
                     frames = 0;
                 }
-
-                //INPUT UPDATE
-                input.update();
                 render = true;
 
 
                 //TODO IF NEXT SCENE
             }
             if(render){
-                //CLEAR SCREEN
-                window.update();
-                window.clear();
-
-                //SCENE and OBJECTS RENDER
-                currentScene.render(this, renderer);
-                currentScene.renderObjects(this, renderer);
-                renderer.resetCount();
+                render();
+                frames ++;
                 //SHOW FPS;
                 //System.out.println("FPS: "+fps);
                 window.setTitle(title + " | FPS: " + fps);
-
-                //WINDOW UPDATE;
-
-                window.swapBuffers();
-
-                frames ++;
             }else {
                 try {
                     Thread.sleep(1);
@@ -157,8 +134,41 @@ public class GameEngine implements Runnable{
             }
 
         }
+        renderer.clear();
+        Debug.close();
         glfwTerminate();
     }
+
+    private void update(){
+        //PHYSICS UPDATE
+
+        //UPDATE SCENE and OBJECTS
+        currentScene.update(this);
+        currentScene.updateObjects(this);
+
+        //CAMERA UPDATE
+        mainCamera.update();
+
+        //INPUT UPDATE
+        input.update();
+    }
+
+    private void render(){
+        //CLEAR SCREEN
+        window.update();
+        window.clear();
+
+        //SCENE and OBJECTS RENDER
+        currentScene.render(this, renderer);
+        currentScene.renderObjects(this, renderer);
+        //WINDOW UPDATE;
+
+        window.swapBuffers();
+
+
+        renderer.clear();
+    }
+
 
     public float deltaTime(){
         return (float)UPDATE_CAP;
@@ -180,4 +190,5 @@ public class GameEngine implements Runnable{
     public long getWindowID() {
         return windowID;
     }
+
 }

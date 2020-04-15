@@ -3,6 +3,8 @@ import skengine2.Camera;
 import skengine2.objects.Entity;
 import skengine2.objects.Transform;
 import org.joml.Matrix4f;
+import skengine2.render.Shaders.DefaultShader;
+import skengine2.render.Shaders.ShaderProgram;
 
 import static skengine2.settings.GraphicSettings.DEFAULT_SHADER;
 
@@ -11,11 +13,9 @@ public class Sprite {
 
     private String fileName;
     private Entity parent;
-    private Texture texture;
     private Model model;
     private String shaderName = DEFAULT_SHADER;
-    private Shader shader;
-    private Matrix4f scaleMatrix;
+    private ShaderProgram shader;
 
     public Sprite(String fileName, Entity parent){
         this.transform = new Transform();
@@ -42,27 +42,26 @@ public class Sprite {
     }
 
     private void init(){
-        texture = new Texture(fileName);
-        model = new Model(texture.getVertices());
-        shader = new Shader(shaderName);
-        scaleMatrix = new Matrix4f().scale(1f);
+        model = new Model(new Texture(fileName));
+        shader = null;
     }
 
     void render(Camera camera){
-        Matrix4f target = camera.getProjection();
-        texture.bind();
-        shader.bind();
-        //shader.setUniform("sampler", 0);
-        shader.setUniform("projection", transform.getProjection(target));
-        //shader.setUniform("projection", camera.getProjection().mul(target));
+        shader.start();
+        //((DefaultShader)shader).loadProjection(transform.getProjection(camera.getProjection()));
         model.render();
-        shader.unbind();
-        texture.unbind();
+        shader.stop();
     }
 
-    public void setShaderName(String shaderName) {
-        this.shaderName = shaderName;
-        shader = new Shader(shaderName);
+    void render(Camera camera, DefaultShader shader){
+        shader.loadProjection(transform.getProjection(camera.getProjection()));
+        model.render();
+    }
+
+
+    public void setShader(ShaderProgram shader) {
+        this.shader = shader;
+        this.shaderName = shader.getShaderName();
     }
 
     public String getShaderName() {
@@ -70,12 +69,12 @@ public class Sprite {
     }
 
     public int getHeight(){
-        if(texture!=null) return texture.getHeight();
+        if(model!=null) return model.getTexture().getHeight();
         return 0;
     }
 
     public int getWidth(){
-        if(texture != null) return texture.getWidth();
+        if(model!=null) return model.getTexture().getWidth();
         return 0;
     }
 }

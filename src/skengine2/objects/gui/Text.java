@@ -1,23 +1,19 @@
 package skengine2.objects.gui;
 
-import skengine2.core.GameEngine;
-import skengine2.objects.Entity;
+import org.joml.Vector3f;
 import skengine2.objects.Transform;
-import skengine2.scene.Scene;
+import skengine2.render.Texture;
 
-public class Text extends Entity {
-
-    public Text(Scene scene, Transform transform){
-        super(scene, transform);
-    }
-
-    @Override
-    public void setup(GameEngine engine) {
-
-    }
-
-    @Override
-    public void update(GameEngine engine) {
-
+public class Text{
+    private String text;
+    private Transform transform;
+    private Vector3f color;
+    private static final String DEFAULT_FONT = "./res/fonts/roboto.png";
+    private Texture texture;
+    public Text(String text, Transform transform){
+        this.transform = transform;
+        this.text = text;
+        color = new Vector3f(1,1,1);
+        texture = new Texture(DEFAULT_FONT);
     }
 }

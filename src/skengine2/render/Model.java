@@ -13,16 +13,20 @@ public class Model {
     private int v_id;
     private int t_id;
     private int i_id;
-    public Model(float[] vertices){
+
+    private Texture texture;
+    public Model(Texture texture){ //float[] vertices
+        this.texture = texture;
+
         draw_count = ModelData.getIndices().length;
 
         v_id = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, v_id);
-        glBufferData(GL_ARRAY_BUFFER, createBuffe(vertices),GL_STATIC_DRAW); //TODO DINAMIC
+        glBufferData(GL_ARRAY_BUFFER, createBuffer(texture.getVertices()),GL_STATIC_DRAW); //TODO DINAMIC
 
         t_id = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, t_id);
-        glBufferData(GL_ARRAY_BUFFER, createBuffe(ModelData.getTextureCoords()), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, createBuffer(ModelData.getTextureCoords()), GL_STATIC_DRAW);
 
         i_id = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_id);
@@ -39,6 +43,7 @@ public class Model {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
+        texture.bind();
         glBindBuffer(GL_ARRAY_BUFFER, v_id);
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0,0);
 
@@ -50,17 +55,23 @@ public class Model {
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+        texture.unbind();
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
 
 
+
     }
 
-    private FloatBuffer createBuffe(float[] data){
+    private FloatBuffer createBuffer(float[] data){
         FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
         buffer.put(data);
         buffer.flip();
         return buffer;
+    }
+
+    public Texture getTexture() {
+        return texture;
     }
 }
